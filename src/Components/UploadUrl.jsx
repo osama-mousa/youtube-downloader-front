@@ -5,14 +5,14 @@ const UploadUrl = () => {
     const [VideoUrl, setVideoUrl] = useState(null);
 
     const PostLink = async () => {
-        fetch('http://localhost:3001/hello', {
-            mode: 'no-cors',
-            credentials: 'include',
+        fetch('http://localhost:3000/api/download', {
+            // mode: 'no-cors',
+            // credentials: 'include',
             method: 'POST',
             headers: {
                 'accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:3001   '
+                'Access-Control-Allow-Origin': 'http://localhost:3000   '
             },
             body: JSON.stringify({
                 "client_id": "1",
@@ -20,10 +20,29 @@ const UploadUrl = () => {
             })
         }).then(response => {
             console.log(response);
-            // if (!response.ok) {
-            //     throw new Error("HTTP error " + response.status);
-            // }
-            // return response.json();
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data);
+        }).catch(error => console.log('Fetch error : ' + error.message));
+
+        fetch('http://localhost:3000/api/download', {
+            // mode: 'no-cors',
+            // credentials: 'include',
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000   '
+            },
+        }).then(response => {
+            console.log(response);
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            return response.json();
         }).then(data => {
             console.log(data);
         }).catch(error => console.log('Fetch error : ' + error.message));
