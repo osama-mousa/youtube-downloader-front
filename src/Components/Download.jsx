@@ -1,0 +1,97 @@
+import React, { useState, useEffect } from "react";
+import './Download.css';
+
+const Download = () => {
+    const [videoUrl, setVideoUrl] = useState("");
+    const [isValidLink, setIsValidLink] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [serverVideoUrl, setServerVideoUrl] = useState(""); // حالة لتخزين عنوان الفيديو من الخادم
+    const [processingVideo, setProcessingVideo] = useState(false); // حالة للإشارة إلى جاري التجهيز
+
+    const handleUrlVideo = (event) => {
+        const url = event.target.value;
+        setVideoUrl(url);
+
+        const isYouTubeLink = url.includes('https://www.youtube.com/') || url.includes('https://youtu');
+        setIsValidLink(isYouTubeLink);
+        setErrorMessage(isYouTubeLink ? "" : "The URL does not include a valid YouTube link");
+    }
+
+    const handleDownload = async () => {
+        // حذف الفيديو القديم إذا كان موجودًا
+        if (serverVideoUrl) {
+            URL.revokeObjectURL(serverVideoUrl);
+            setServerVideoUrl("");
+        }
+
+        if (isValidLink) {
+            try {
+                // تعيين حالة "جاري التجهيز" عند بدء تحميل الفيديو
+                setProcessingVideo(true);
+
+                const response = await fetch('http://localhost:3000/api/downloadVideo', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'video/mp4',
+                        'Content-Type': 'application/json',
+                        // Add proper CORS headers if needed
+                    },
+                    body: JSON.stringify({ "link": videoUrl }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                // إزالة حالة "جاري التجهيز" بعد الانتهاء من تحميل الفيديو
+                setProcessingVideo(false);
+
+                // عرض الفيديو الجديد
+                setServerVideoUrl(url);
+            } catch (error) {
+                console.error('Error in fetch request:', error);
+
+                // إزالة حالة "جاري التجهيز" في حالة حدوث خطأ
+                setProcessingVideo(false);
+            }
+        }
+    }
+
+    return (
+        <>
+            <input
+                type="text"
+                placeholder="Video URL (https://www.youtube.com/...)"
+                name="imageUrl"
+                value={videoUrl}
+                onChange={handleUrlVideo}
+            />
+            <button className="downloadBtn" onClick={handleDownload} disabled={!isValidLink || processingVideo}>
+                {processingVideo ? 'Downloading...' : 'Download'}
+            </button>
+
+            <div>
+                {isValidLink ? (
+                    <p>The Link is correct</p>
+                ) : (
+                    <p>{errorMessage}</p>
+                )}
+            </div>
+
+            {serverVideoUrl && (
+                <div>
+                    <p>Your Video:</p>
+                    <video controls width="400" height="300">
+                        <source src={serverVideoUrl} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            )}
+        </>
+    );
+}
+
+export default Download;
