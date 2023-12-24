@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Navbar from './Components/Navbar'
 import Footer from './Components/Footer'
-import UploadUrl from './Components/UploadUrl'
+import Download from './Components/Download'
 import './App.css'
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
   return (
     <>
      <Navbar />
-      <UploadUrl />
+      <Download />
      <Footer />
       
     </>
