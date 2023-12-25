@@ -1,8 +1,9 @@
 .footer {
     position:relative;
-    top: 900px;
+    top: 300px;
+    bottom: 0;
     width: auto;
-    padding: 10px;
+    padding: 20px;
     text-align: center
 
 }
