@@ -9,10 +9,11 @@ function App() {
 
   return (
     <>
-     <Navbar />
+      <Navbar />
+      <h1 className='title'>YouTube Video Downloader</h1>
       <Download />
-     <Footer />
-      
+      <Footer />
+
     </>
   )
 }
