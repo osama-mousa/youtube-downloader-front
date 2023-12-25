@@ -7,6 +7,7 @@ const Download = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [serverVideoUrl, setServerVideoUrl] = useState(""); // حالة لتخزين عنوان الفيديو من الخادم
     const [processingVideo, setProcessingVideo] = useState(false); // حالة للإشارة إلى جاري التجهيز
+    const [correctMessage, setCorrectMessage] = useState("");
 
     const handleUrlVideo = (event) => {
         const url = event.target.value;
@@ -15,6 +16,7 @@ const Download = () => {
         const isYouTubeLink = url.includes('https://www.youtube.com/') || url.includes('https://youtu');
         setIsValidLink(isYouTubeLink);
         setErrorMessage(isYouTubeLink ? "" : "The URL does not include a valid YouTube link");
+        setCorrectMessage("The Link is correct");
     }
 
     const handleDownload = async () => {
@@ -42,10 +44,17 @@ const Download = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
+                
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
-
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'video.mp4';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
                 // إزالة حالة "جاري التجهيز" بعد الانتهاء من تحميل الفيديو
                 setProcessingVideo(false);
 
@@ -56,6 +65,7 @@ const Download = () => {
 
                 // إزالة حالة "جاري التجهيز" في حالة حدوث خطأ
                 setProcessingVideo(false);
+                setCorrectMessage("The download link not found.")
             }
         }
     }
@@ -75,7 +85,7 @@ const Download = () => {
 
             <div>
                 {isValidLink ? (
-                    <p>The Link is correct</p>
+                    <p>{correctMessage}</p>
                 ) : (
                     <p>{errorMessage}</p>
                 )}
@@ -84,7 +94,7 @@ const Download = () => {
             {serverVideoUrl && (
                 <div>
                     <p>Your Video:</p>
-                    <video controls width="400" height="300">
+                    <video controls width="600" height="400">
                         <source src={serverVideoUrl} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
