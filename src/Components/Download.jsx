@@ -31,7 +31,7 @@ const Download = () => {
                 // تعيين حالة "جاري التجهيز" عند بدء تحميل الفيديو
                 setProcessingVideo(true);
 
-                const response = await fetch('http://localhost:3000/api/downloadVideo', {
+                const response = await fetch('https://tube-down-back.vercel.app/api/downloadVideo', {
                     method: 'POST',
                     headers: {
                         'accept': 'video/mp4',
