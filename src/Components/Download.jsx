@@ -94,7 +94,7 @@ const Download = () => {
             {serverVideoUrl && (
                 <div>
                     <p>Your Video:</p>
-                    <video controls width="600" height="400">
+                    <video className="video" controls>
                         <source src={serverVideoUrl} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
