@@ -9,8 +9,7 @@
 }
 
 @media (max-width: 450px) {
-  h1 {
-    border: 1rem;
-    font-size: 2em;
+  .title{
+    font-size:xx-large;
   }
 }
