@@ -10,6 +10,22 @@
 .PsStand {
     position: fixed;
     right: 1rem;
+    top: 1rem;
+;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  margin-left: 10px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid red;
+  animation: moveTriangle 1s infinite;
+}
+
+span{
+  position: fixed;
 }
 
 img {
@@ -17,7 +33,27 @@ img {
   height: auto;
 }
 
-@media (max-width: 450px) {
+p{
+  font-size: small;
+}
+
+
+@keyframes moveTriangle {
+  0% {
+    transform: translateY(0) rotate(180deg);
+    /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); لون مشع هنا */
+  }
+  50% {
+    transform: translateY(20px) rotate(180deg);
+    /* box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); زيادة التأثير المشع */
+  }
+  100% {
+    transform: translateY(0) rotate(180deg);
+    /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); اللون الأصلي في النهاية */
+  }
+}
+
+@media (max-width: 445px) {
     .PsStand {
       position: relative;
       top: auto;
