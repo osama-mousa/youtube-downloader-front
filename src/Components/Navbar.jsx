@@ -12,7 +12,7 @@ const Navbar = () => {
                 </Typography>
             </Toolbar>
             
-            <p className='PsStand'>I stand with Palestine 🇵🇸 </p>
+            <p className='PsStand'>I stand with Palestine 🇵🇸</p>
         </AppBar>
     );
 };

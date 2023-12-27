@@ -5,8 +5,8 @@ const Download = () => {
     const [videoUrl, setVideoUrl] = useState("");
     const [isValidLink, setIsValidLink] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [serverVideoUrl, setServerVideoUrl] = useState(""); // حالة لتخزين عنوان الفيديو من الخادم
-    const [processingVideo, setProcessingVideo] = useState(false); // حالة للإشارة إلى جاري التجهيز
+    const [serverVideoUrl, setServerVideoUrl] = useState(""); // Status for storing the video address from the server
+    const [processingVideo, setProcessingVideo] = useState(false); // Status to indicate loading
     const [correctMessage, setCorrectMessage] = useState("");
 
     const handleUrlVideo = (event) => {
@@ -20,7 +20,7 @@ const Download = () => {
     }
 
     const handleDownload = async () => {
-        // حذف الفيديو القديم إذا كان موجودًا
+        // Delete the old video if it exists
         if (serverVideoUrl) {
             URL.revokeObjectURL(serverVideoUrl);
             setServerVideoUrl("");
@@ -28,7 +28,6 @@ const Download = () => {
 
         if (isValidLink) {
             try {
-                // تعيين حالة "جاري التجهيز" عند بدء تحميل الفيديو
                 setProcessingVideo(true);
 
                 const response = await fetch('https://5153-78-184-131-101.ngrok-free.app/api/downloadVideo', {
@@ -44,26 +43,22 @@ const Download = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                
+
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
-                
+
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'video.mp4';
-                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
-                
-                // إزالة حالة "جاري التجهيز" بعد الانتهاء من تحميل الفيديو
+
                 setProcessingVideo(false);
 
-                // عرض الفيديو الجديد
+                //Display the new video
                 setServerVideoUrl(url);
             } catch (error) {
                 console.error('Error in fetch request:', error);
 
-                // إزالة حالة "جاري التجهيز" في حالة حدوث خطأ
                 setProcessingVideo(false);
                 setCorrectMessage("The download link not found.")
             }
