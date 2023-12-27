@@ -30,7 +30,7 @@ const Download = () => {
             try {
                 setProcessingVideo(true);
 
-                const response = await fetch('https://5153-78-184-131-101.ngrok-free.app/api/downloadVideo', {
+                const response = await fetch('https://99b7-78-184-131-101.ngrok-free.app/api/downloadVideo', {
                     method: 'POST',
                     headers: {
                         'accept': 'video/mp4',
