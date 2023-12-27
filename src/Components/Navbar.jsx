@@ -8,7 +8,7 @@ const Navbar = () => {
             <Toolbar>
                 <img src={reactLogo} alt="React Logo" style={{ width: '40px', marginRight: '10px' }} />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Youtube Downloader <span><div class="triangle"></div></span>
+                    Youtube Downloader <span><div className="triangle"></div></span>
                 </Typography>
             </Toolbar>
             
