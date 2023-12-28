@@ -9,8 +9,19 @@
   padding-top: 2rem;
 }
 
+.error{
+  margin-top: 3rem;
+  background-color: rgb(167, 0, 0);
+}
+ .error p{
+  font-size: large;
+ }
+
 @media (max-width: 450px) {
   .title{
     font-size:xx-large;
+  }
+  .error{
+    margin-top: 6rem;
   }
 }
